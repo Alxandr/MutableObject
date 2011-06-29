@@ -88,7 +88,9 @@ namespace MutableObject.Tests
             Assert.AreEqual(0, d1.Count);
             Assert.AreEqual(0, d2.Count);
 
-            obj1.Name = obj2.Name = Guid.NewGuid().ToString();
+            string newName = Guid.NewGuid().ToString();
+
+            obj1.Name = obj2.Name = newName;
 
             d1 = Mutate.GetChangedProperties(obj1);
             d2 = Mutate.GetChangedProperties(obj2);
@@ -98,6 +100,9 @@ namespace MutableObject.Tests
 
             Assert.IsTrue(d1.ContainsKey("Name"));
             Assert.IsTrue(d2.ContainsKey("Name"));
+
+            Assert.AreEqual(newName, d1["Name"]);
+            Assert.AreEqual(newName, d2["Name"]);
         }
     }
 
