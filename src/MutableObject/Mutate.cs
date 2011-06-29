@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace MutableObject
 {
     /// <summary>
     /// A helper-class for creating and managing mutable objects.
     /// </summary>
-    public static class MutableObject
+    public static class Mutate
     {
         /// <summary>
         /// Create a mutable object without any data.
@@ -59,8 +60,12 @@ namespace MutableObject
                 throw new ArgumentException("Object must be mutable");
 
             Type interf = obj.GetType().GetInterfaces().Where(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IMutable<>)).First();
-            object mutator = interf.GetProperty("Mutator").GetGetMethod().Invoke(obj, null);
-            return (IDictionary<string, object>)mutator.GetType().GetProperty("ChangedProperties").GetGetMethod().Invoke(mutator, null);
+            object mutator = interf.GetProperty("Mutator").GetGetMethod().Invoke(obj, new object[0]);
+            var changedProp = mutator.GetType().GetProperty("ChangedProperties", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.InvokeMethod);
+
+            object dict = changedProp.GetValue(mutator, new object[0]);
+
+            return (IDictionary<string, object>)dict;
         }
     }
 }

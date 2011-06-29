@@ -28,6 +28,11 @@ namespace MutableObject
             //invocation.Proceed();
             if (invocation.Method.Name.StartsWith("get_", StringComparison.OrdinalIgnoreCase))
             {
+                if (name == "Mutator")
+                {
+                    invocation.ReturnValue = mutator;
+                    return;
+                }
                 if (mutator.baseObject != null)
                     invocation.ReturnValue = invocation.Method.Invoke(mutator.baseObject, invocation.Arguments);
                 else

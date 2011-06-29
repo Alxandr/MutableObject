@@ -68,8 +68,9 @@
   <ItemGroup>
     <Compile Include="CallLoggingInterceptor.cs" />
     <Compile Include="IMutable.cs" />
-    <Compile Include="MutableObject.cs" />
+    <Compile Include="Mutate.cs" />
     <Compile Include="Mutator.cs" />
+    <Compile Include="MutatorInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadOnlyDictionary.cs" />
   </ItemGroup>

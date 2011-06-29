@@ -14,21 +14,21 @@ namespace MutableObject.Tests
         {
             Interface1 obj1 = new Class1();
 
-            Assert.IsFalse(MutableObject.IsMutable(obj1));
+            Assert.IsFalse(Mutate.IsMutable(obj1));
         }
 
         [Test]
         public void MutableObjectsShouldBeMutable()
         {
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>();
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
 
-            Assert.IsTrue(MutableObject.IsMutable(obj1));
+            Assert.IsTrue(Mutate.IsMutable(obj1));
         }
 
         [Test]
         public void MutableObjectsWithoutBaseShouldntBeReadable()
         {
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>();
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
 
             try
             {
@@ -47,7 +47,7 @@ namespace MutableObject.Tests
             Interface1 obj = new Class1();
             obj.Name = Guid.NewGuid().ToString();
 
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>(obj);
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>(obj);
 
             Assert.AreEqual(obj.Name, obj1.Name);
         }
@@ -56,7 +56,7 @@ namespace MutableObject.Tests
         public void SetPropertiesShouldBeReadable()
         {
             String name = Guid.NewGuid().ToString();
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>();
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
             obj1.Name = name;
 
             Assert.AreEqual(name, obj1.Name);
@@ -69,7 +69,7 @@ namespace MutableObject.Tests
             obj.Name = Guid.NewGuid().ToString();
             String newName = Guid.NewGuid().ToString();
 
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>(obj);
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>(obj);
             obj1.Name = newName;
 
             Assert.AreEqual(newName, obj.Name);
@@ -79,19 +79,19 @@ namespace MutableObject.Tests
         public void ChangedPropertiesShouldBeGettableAsDict()
         {
             Interface1 obj = new Class1();
-            Interface1 obj1 = MutableObject.CreateMutableObject<Interface1>();
-            Interface1 obj2 = MutableObject.CreateMutableObject<Interface1>(obj);
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
+            Interface1 obj2 = Mutate.CreateMutableObject<Interface1>(obj);
 
-            IDictionary<string, object> d1 = MutableObject.GetChangedProperties(obj1);
-            IDictionary<string, object> d2 = MutableObject.GetChangedProperties(obj2);
+            IDictionary<string, object> d1 = Mutate.GetChangedProperties(obj1);
+            IDictionary<string, object> d2 = Mutate.GetChangedProperties(obj2);
 
             Assert.AreEqual(0, d1.Count);
             Assert.AreEqual(0, d2.Count);
 
             obj1.Name = obj2.Name = Guid.NewGuid().ToString();
 
-            d1 = MutableObject.GetChangedProperties(obj1);
-            d2 = MutableObject.GetChangedProperties(obj2);
+            d1 = Mutate.GetChangedProperties(obj1);
+            d2 = Mutate.GetChangedProperties(obj2);
 
             Assert.AreEqual(1, d1.Count);
             Assert.AreEqual(1, d2.Count);

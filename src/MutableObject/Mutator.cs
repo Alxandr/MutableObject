@@ -11,7 +11,7 @@ namespace MutableObject
     /// The mutator class holds all data for registered mutable types.
     /// </summary>
     /// <typeparam name="T">The mutable type.</typeparam>
-    public sealed class Mutator<T> : IInterceptor
+    public sealed class Mutator<T>
     {
         private static ProxyGenerator proxyGenerator = new ProxyGenerator();
 
