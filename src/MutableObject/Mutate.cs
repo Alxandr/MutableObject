@@ -85,5 +85,20 @@ namespace MutableObject
 
             return baseObj != null;
         }
+
+        /// <summary>
+        /// Returns whether or not named properties are set on a unbound object.
+        /// </summary>
+        /// <param name="obj">The object to check properties on.</param>
+        /// <param name="properties">The list of properties to check.</param>
+        /// <returns>True if all properties are set; otherwise false.</returns>
+        public static bool PropertiesIsSet(object obj, params string[] properties)
+        {
+            if (IsBound(obj))
+                return true;
+
+            var dict = GetChangedProperties(obj);
+            return properties.All(prop => dict.ContainsKey(prop));
+        }
     }
 }

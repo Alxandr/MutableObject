@@ -116,6 +116,26 @@ namespace MutableObject.Tests
             Assert.IsFalse(isBound1);
             Assert.IsTrue(isBound2);
         }
+
+        [Test]
+        public void PropertiesIsSetTest()
+        {
+            Interface1 obj = new Class1();
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
+            Interface1 obj2 = Mutate.CreateMutableObject<Interface1>(obj);
+
+            Assert.IsTrue(Mutate.PropertiesIsSet(obj2));
+            Assert.IsTrue(Mutate.PropertiesIsSet(obj1));
+
+            Assert.IsTrue(Mutate.PropertiesIsSet(obj2, "nonexisting property"));
+            Assert.IsFalse(Mutate.PropertiesIsSet(obj1, "nonexisting property"));
+
+            Assert.IsFalse(Mutate.PropertiesIsSet(obj1, "Name"));
+
+            obj1.Name = "set";
+
+            Assert.IsTrue(Mutate.PropertiesIsSet(obj1, "Name"));
+        }
     }
 
     public interface Interface1
