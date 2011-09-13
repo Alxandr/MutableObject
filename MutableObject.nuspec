@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MutableObject</id>
+    <version>1.1</version>
+    <authors>Aleksander Heintz</authors>
+    <owners>Aleksander Heintz</owners>
+	<projectUrl>https://github.com/Alxandr/MutableObject</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Track state of CLR-objects</description>
+    <copyright>Copyright 2011</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Castle.DynamicProxy" version="2.2.0" />
+    </dependencies>
+  </metadata>
+</package>
