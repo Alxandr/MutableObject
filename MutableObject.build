@@ -58,6 +58,35 @@
 		<property name="build.dir" value="${project::get-base-directory()}/build/${project.name}-${project.version.full}" />
 	</target>
 	
+	<!-- nuget release task -->
+	<target name="publish" depends="release, test" description="Creates nupack">
+		<if test="${project.release.type != 'release'}">
+			<echo message="Publish should be run with project.release.type == 'release'" />
+		</if>
+		<property name="nuget.dir" value="${build.dir}/nuget" />
+		<mkdir dir="${nuget.dir}" />
+		<mkdir dir="${nuget.dir}/lib" />
+		<mkdir dir="${nuget.dir}/lib/net40" />
+		<copy todir="${nuget.dir}/lib/net40">
+			<fileset basedir="${build.dir}/bin">
+				<include name="${project.name}.dll" />
+			</fileset>
+		</copy>
+		<copy todir="${nuget.dir}" file="${project.name}.nuspec" />
+		<xmlpoke file="${nuget.dir}/${project.name}.nuspec"
+				 xpath="/ns:package/ns:metadata/ns:version"
+				 value="${project.version}">
+			<namespaces>
+				<namespace prefix="ns" uri="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" />
+			</namespaces>
+		</xmlpoke>
+		<exec basedir="tools/NuGet" program="nuget.exe" append="true"
+		      commandline="Update -self" />
+		<exec basedir="tools/NuGet" program="nuget.exe" append="true"
+		      commandline="Pack ${project.name}.nuspec"
+			  workingdir="${nuget.dir}" />
+	</target>
+	
 	<!-- build tasks -->
 	<target name="init" description="Initializes build properties">
 		<call target="${project.config}" />
