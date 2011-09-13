@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 
 namespace MutableObject
@@ -34,7 +31,7 @@ namespace MutableObject
 #if (DEBUG && LOG_INTERCEPTION)
                 new CallLoggingInterceptor(),
 #endif
-                new MutatorInterceptor<T>(this));
+ new MutatorInterceptor<T>(this));
         }
 
         internal T Object
@@ -46,6 +43,10 @@ namespace MutableObject
         {
             get { return new ReadOnlyDictionary<string, object>(properties); }
         }
-       
+
+        internal Object BaseObject
+        {
+            get { return baseObject; }
+        }
     }
 }

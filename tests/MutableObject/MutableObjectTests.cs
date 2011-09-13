@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 
 namespace MutableObject.Tests
@@ -103,6 +101,20 @@ namespace MutableObject.Tests
 
             Assert.AreEqual(newName, d1["Name"]);
             Assert.AreEqual(newName, d2["Name"]);
+        }
+
+        [Test]
+        public void BoundObjectsShouldBeBound()
+        {
+            Interface1 obj = new Class1();
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
+            Interface1 obj2 = Mutate.CreateMutableObject<Interface1>(obj);
+
+            bool isBound1 = Mutate.IsBound(obj1);
+            bool isBound2 = Mutate.IsBound(obj2);
+
+            Assert.IsFalse(isBound1);
+            Assert.IsFalse(isBound2);
         }
     }
 
