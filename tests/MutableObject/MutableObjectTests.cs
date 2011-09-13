@@ -114,7 +114,7 @@ namespace MutableObject.Tests
             bool isBound2 = Mutate.IsBound(obj2);
 
             Assert.IsFalse(isBound1);
-            Assert.IsFalse(isBound2);
+            Assert.IsTrue(isBound2);
         }
     }
 
