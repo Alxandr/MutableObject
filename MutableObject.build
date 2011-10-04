@@ -6,7 +6,7 @@
 	
 	<!-- global project settings -->
 	<property name="project.name" value="MutableObject" />
-	<property name="project.version" value="1.1" unless="${property::exists('project.version')}" />
+	<property name="project.version" value="1.2" unless="${property::exists('project.version')}" />
 	<property name="project.release.type" value="dev" unless="${property::exists('project.release.type')}" /> <!-- nightly | dev | alpha | beta# | rc# | release -->
 	
 	<property name="lib.castle_core.dir" value="lib/Castle.Core.1.2.0/lib" />
