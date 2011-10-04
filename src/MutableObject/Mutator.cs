@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Castle.DynamicProxy;
 
 namespace MutableObject
@@ -13,6 +14,7 @@ namespace MutableObject
         private static ProxyGenerator proxyGenerator = new ProxyGenerator();
 
         internal Dictionary<string, object> properties;
+        internal Dictionary<string, object> origProperties;
         internal object baseObject;
         internal T proxyObject;
 
@@ -25,6 +27,7 @@ namespace MutableObject
 
             this.baseObject = baseObject;
             this.properties = new Dictionary<string, object>();
+            this.origProperties = new Dictionary<string, object>();
 
             this.proxyObject = (T)proxyGenerator.CreateInterfaceProxyWithoutTarget(typeof(T),
                 new Type[] { typeof(IMutable<>).MakeGenericType(typeof(T)) },
@@ -47,6 +50,18 @@ namespace MutableObject
         internal Object BaseObject
         {
             get { return baseObject; }
+        }
+
+        internal void Reset()
+        {
+            this.properties = new Dictionary<string, object>();
+            foreach (var prop in this.origProperties)
+            {
+                var property = baseObject.GetType().GetProperty(prop.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (property != null)
+                    property.SetValue(baseObject, prop.Value, new object[0]);
+            }
+            this.origProperties = new Dictionary<string, object>();
         }
     }
 }

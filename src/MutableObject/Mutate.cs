@@ -100,5 +100,20 @@ namespace MutableObject
             var dict = GetChangedProperties(obj);
             return properties.All(prop => dict.ContainsKey(prop));
         }
+
+        /// <summary>
+        /// Resets the specified object.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        public static void Reset(object obj)
+        {
+            if (!IsMutable(obj))
+                throw new ArgumentException("Object must be mutable");
+
+            Type interf = obj.GetType().GetInterfaces().Where(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IMutable<>)).First();
+            object mutator = interf.GetProperty("Mutator").GetGetMethod().Invoke(obj, new object[0]);
+            var reset = mutator.GetType().GetMethod("Reset", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.InvokeMethod);
+            reset.Invoke(mutator, new object[0]);
+        }
     }
 }

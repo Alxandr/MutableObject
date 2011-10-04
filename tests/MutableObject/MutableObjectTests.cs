@@ -136,6 +136,28 @@ namespace MutableObject.Tests
 
             Assert.IsTrue(Mutate.PropertiesIsSet(obj1, "Name"));
         }
+
+        [Test]
+        public void CanResetTest()
+        {
+            Interface1 obj = new Class1();
+
+            obj.Name = "Per";
+
+            Interface1 obj1 = Mutate.CreateMutableObject<Interface1>();
+            Interface1 obj2 = Mutate.CreateMutableObject<Interface1>(obj);
+
+            obj1.Name = "Knut";
+            obj2.Name = "Knut";
+
+            Assert.AreEqual(obj.Name, "Knut");
+
+            Mutate.Reset(obj1);
+            Mutate.Reset(obj2);
+
+            Assert.AreEqual(obj.Name, "Per");
+            Assert.IsFalse(Mutate.PropertiesIsSet(obj1, "Name"));
+        }
     }
 
     public interface Interface1
