@@ -11,6 +11,7 @@
 	
 	<property name="lib.castle_core.dir" value="lib/Castle.Core.1.2.0/lib" />
 	<property name="lib.castle_dynamicproxy2.dir" value="lib/Castle.DynamicProxy.2.2.0/lib" />
+	<property name="lib.immutable.dir" value="lib/System.Collections.Immutable.1.1.33-beta/lib/portable-net45+win8+wp8+wpa81" />
 	
 	<if test="${project.release.type == 'nightly'}">
 		<property name="project.version.full" value="${project.version + '-nightly-' + build.date}" />

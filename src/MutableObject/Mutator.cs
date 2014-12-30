@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Reflection;
 using Castle.DynamicProxy;
 
@@ -42,9 +43,14 @@ namespace MutableObject
             get { return proxyObject; }
         }
 
-        internal IDictionary<string, object> ChangedProperties
+        internal IImmutableDictionary<string, object> ChangedProperties
         {
-            get { return new ReadOnlyDictionary<string, object>(properties); }
+            get { return properties.ToImmutableDictionary(); }
+        }
+
+        internal IImmutableDictionary<string, object> OriginalProperties
+        {
+            get { return origProperties.ToImmutableDictionary(); }
         }
 
         internal Object BaseObject

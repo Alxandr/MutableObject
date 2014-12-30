@@ -104,6 +104,29 @@ namespace MutableObject.Tests
         }
 
         [Test]
+        public void OriginalPropertiesShouldBeGettableAsDict()
+        {
+            Interface1 obj = new Class1();
+            Interface1 obj2 = Mutate.CreateMutableObject<Interface1>(obj);
+
+            IDictionary<string, object> d2 = Mutate.GetOriginalProperties(obj2);
+
+            Assert.AreEqual(0, d2.Count);
+
+            string newName = Guid.NewGuid().ToString();
+
+            obj2.Name = obj2.Name = newName;
+
+            d2 = Mutate.GetOriginalProperties(obj2);
+
+            Assert.AreEqual(1, d2.Count);
+
+            Assert.IsTrue(d2.ContainsKey("Name"));
+
+            Assert.AreEqual(null, d2["Name"]);
+        }
+
+        [Test]
         public void BoundObjectsShouldBeBound()
         {
             Interface1 obj = new Class1();

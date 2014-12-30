@@ -25,6 +25,8 @@
 			<references>
 				<include name="${build.dir}/bin/${lib.castle_core.dir}/Castle.Core.dll" />
 				<include name="${build.dir}/bin/${lib.castle_dynamicproxy2.dir}/Castle.DynamicProxy2.dll" />
+				<include name="${build.dir}/bin/${lib.immutable.dir}/System.Collections.Immutable.dll" />
+				<include name="System.Runtime" />
 			</references>
 		</csc>
 		<copy todir="${build.dir}/bin">

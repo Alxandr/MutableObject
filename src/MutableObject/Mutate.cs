@@ -68,6 +68,25 @@ namespace MutableObject
         }
 
         /// <summary>
+        /// Gets all the original properties and their values.
+        /// </summary>
+        /// <param name="obj">The object to get the changed values for.</param>
+        /// <returns>A dictionary containing the properties and their values.</returns>
+        public static IDictionary<string, object> GetOriginalProperties(object obj)
+        {
+            if (!IsMutable(obj))
+                throw new ArgumentException("Object must be mutable");
+
+            Type interf = obj.GetType().GetInterfaces().Where(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IMutable<>)).First();
+            object mutator = interf.GetProperty("Mutator").GetGetMethod().Invoke(obj, new object[0]);
+            var changedProp = mutator.GetType().GetProperty("OriginalProperties", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.InvokeMethod);
+
+            object dict = changedProp.GetValue(mutator, new object[0]);
+
+            return (IDictionary<string, object>)dict;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether or not the MutableObject is bound to a base object.
         /// </summary>
         /// <param name="obj">The object to check is bound or not.</param>
